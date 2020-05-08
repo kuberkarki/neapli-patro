@@ -1,6 +1,5 @@
 # NepaliPatro
-
-A new Flutter project.
+Experiment with Nepali util dependency. like nepali dates, nepali unicode
 
 ## Getting Started
 
