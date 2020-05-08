@@ -1,5 +1,5 @@
 # NepaliPatro
-Experiment with Nepali util dependency. like nepali dates, nepali unicode
+Experiment with Nepali util and clean nepali calendar dependency. like nepali dates, nepali unicode
 
 ## Getting Started
 
