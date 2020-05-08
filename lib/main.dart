@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Nepali Patro',
+      title: NepaliUnicode.convert('nepaalI Paatro'),
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Container(
-              // height: 100,
+              //  width: 300,
               // _getDayHeaders()
               child: SingleChildScrollView(
         child: Column(
@@ -395,11 +395,16 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
 
   void _vibrate() {
     switch (Theme.of(context).platform) {
+      case TargetPlatform.windows:
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
         HapticFeedback.vibrate();
         break;
       case TargetPlatform.iOS:
+        break;
+      case TargetPlatform.linux:
+        break;
+      case TargetPlatform.macOS:
         break;
     }
   }
