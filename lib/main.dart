@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'helpers/patro_helper.dart';
 import 'patro/patro.dart';
+
 void main() {
   Patro(Language.nepali);
   runApp(MyApp());
@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          bodyText2: TextStyle(fontSize: 16.0,),
+          caption: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold,color:Colors.white),
         ),
       ),
       home: MyHomePage(title: NepaliUnicode.convert('nepaalI Paatro')),
@@ -46,10 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
   NepaliDateTime currentTime = NepaliDateTime.now();
   var date2 = NepaliDateFormat.EEEE();
 
-  final NepaliDateTime first =NepaliDateTime(2075,5);
-    final NepaliDateTime last = NepaliDateTime(2077,3);
+  final NepaliDateTime first = NepaliDateTime(2075, 5);
+  final NepaliDateTime last = NepaliDateTime(2077, 3);
 
-  final NepaliCalendarController _nepaliCalendarController = NepaliCalendarController();
+  final NepaliCalendarController _nepaliCalendarController =
+      NepaliCalendarController();
 // print(currentTime.toIso8601String());
   // print(currentTime.toIso8601String()); //2076-02-01T11:25:46.490980
 
@@ -59,11 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -72,89 +71,101 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         elevation: 0.0,
       ),
-      body: Column(
-        children: [
-          Container(
-            // width: MediaQuery.of(context).size.width/20,
-            color: Colors.deepOrange,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(NepaliDateFormat.LLLL().format(currentTime) + ', ',
-                        style: TextStyle(fontSize: 16, color: Colors.white)),
-                    Text(
-                      NepaliDateFormat.y().format(currentTime),
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ],
-                ),
-                Text(NepaliDateFormat.d().format(currentTime),
-                    style: TextStyle(fontSize: 36, color: Colors.white)),
-                Text(date2.format(currentTime),
-                    style: TextStyle(fontSize: 16, color: Colors.white)),
-              ],
-            ),
-          ),
-          Container(
-              //  width: 300,
-              // _getDayHeaders()
-              child: SingleChildScrollView(
+      body: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            CleanNepaliCalendar(
-              controller: _nepaliCalendarController,
-              onHeaderLongPressed: (date) {
-                print("header long pressed $date");
-              },
-              onHeaderTapped: (date) {
-                print("header tapped $date");
-              },
-              calendarStyle: CalendarStyle(
-                selectedColor: Colors.deepOrange,
-                dayStyle: TextStyle(fontWeight: FontWeight.bold),
-                todayStyle: TextStyle(
-                  fontSize: 20.0,
-                ),
-                todayColor: Colors.orange.shade400,
-                highlightSelected: true,
-                renderDaysOfWeek: true,
-                highlightToday: true,
+          children: [
+            Container(
+              color: Colors.deepOrange,
+              child: Row(
+                children: [
+                  Container(
+                    width: 100,
+                    
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(NepaliDateFormat.LLLL().format(currentTime) + ', ',
+                                style:
+                                    TextStyle(fontSize: 16, color: Colors.white)),
+                            Text(
+                              NepaliDateFormat.y().format(currentTime),
+                              style: TextStyle(fontSize: 16, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        Text(NepaliDateFormat.d().format(currentTime),
+                            style: TextStyle(fontSize: 36, color: Colors.white)),
+                        Text(date2.format(currentTime),
+                            style: TextStyle(fontSize: 16, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            PatroNepaliCalendar(
+                              controller: _nepaliCalendarController,
+                              onHeaderLongPressed: (date) {
+                                print("header long pressed $date");
+                              },
+                              onHeaderTapped: (date) {
+                                print("header tapped $date");
+                              },
+                              calendarStyle: CalendarStyle(
+                                selectedColor: Colors.green,
+                                dayStyle: TextStyle(fontWeight: FontWeight.bold,color:Colors.white),
+                                todayStyle: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                                todayColor: Colors.grey[400],
+                                highlightSelected: true,
+                                renderDaysOfWeek: true,
+                                highlightToday: true,
+                              ),
+                              headerStyle: HeaderStyle(
+                                centerHeaderTitle: true,
+                                titleTextStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 20.0),
+                              ),
+                              initialDate: NepaliDateTime.now(),
+                              // firstDate: first,
+                              // lastDate: last,
+                              language: Language.nepali,
+                              onDaySelected: (day) {
+                                print(day.toString());
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              headerStyle: HeaderStyle(
-                centerHeaderTitle: false,
-                titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepOrange,fontSize: 20.0),
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                ],
               ),
-              initialDate: NepaliDateTime.now(),
-              // firstDate: first,
-              // lastDate: last,
-              language: Language.nepali,
-              onDaySelected: (day){
-                print(day.toString());
-              },
-              
             ),
           ],
         ),
-      ),
-    ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -164,4 +175,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

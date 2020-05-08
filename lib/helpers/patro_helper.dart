@@ -34,7 +34,7 @@ class CalendarStyle {
   /// Determines whether the row of days of the week should be rendered or not.
   final bool renderDaysOfWeek;
 
-  /// Padding of `CleanNepaliCalendar`'s content.
+  /// Padding of `PatroNepaliCalendar`'s content.
   final EdgeInsets contentPadding;
 
   /// Specifies whether or not SelectedDay should be highlighted.
@@ -65,7 +65,7 @@ class CalendarStyle {
 
 
 
-/// Class containing styling and configuration of `CleanNepaliCalendar`'s header.
+/// Class containing styling and configuration of `PatroNepaliCalendar`'s header.
 class HeaderStyle {
   /// Responsible for making title Text centered.
   final bool centerHeaderTitle;
@@ -107,9 +107,9 @@ class HeaderStyle {
     this.titleTextStyle = const TextStyle(fontSize: 17.0),
     this.leftChevronPadding = const EdgeInsets.all(8.0),
     this.rightChevronPadding = const EdgeInsets.all(8.0),
-    this.leftChevronIcon = const Icon(Icons.chevron_left, color: Colors.black),
+    this.leftChevronIcon = const Icon(Icons.chevron_left, color: Colors.white),
     this.rightChevronIcon =
-        const Icon(Icons.chevron_right, color: Colors.black),
+        const Icon(Icons.chevron_right, color: Colors.white),
     this.decoration = const BoxDecoration(),
   });
 }
@@ -157,10 +157,10 @@ String formattedMonth(
 const int _kMaxDayPickerRowCount = 6; // A 31 day month that starts on Saturday.
 // Two extra rows: one for the day-of-week header and one for the month header.
 const double _kMaxDayPickerHeight =
-    _kDayPickerRowHeight * (_kMaxDayPickerRowCount + 2);
+    _kDayPickerRowHeight * (_kMaxDayPickerRowCount);
 
-class CleanNepaliCalendar extends StatefulWidget {
-  const CleanNepaliCalendar({
+class PatroNepaliCalendar extends StatefulWidget {
+  const PatroNepaliCalendar({
     Key key,
     this.initialDate,
     this.firstDate,
@@ -188,10 +188,10 @@ class CleanNepaliCalendar extends StatefulWidget {
   final NepaliCalendarController controller;
 
   @override
-  _CleanNepaliCalendarState createState() => _CleanNepaliCalendarState();
+  _PatroNepaliCalendarState createState() => _PatroNepaliCalendarState();
 }
 
-class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
+class _PatroNepaliCalendarState extends State<PatroNepaliCalendar> {
   @override
   void initState() {
     super.initState();
@@ -222,7 +222,7 @@ class _CleanNepaliCalendarState extends State<CleanNepaliCalendar> {
   }
 
   @override
-  void didUpdateWidget(CleanNepaliCalendar oldWidget) {
+  void didUpdateWidget(PatroNepaliCalendar oldWidget) {
     super.didUpdateWidget(oldWidget);
     _selectedDate = widget.initialDate ?? NepaliDateTime.now();
     widget.controller
@@ -480,7 +480,7 @@ class _CalendarHeader extends StatelessWidget {
   }
 }
 
-const double _kDayPickerRowHeight = 42.0;
+const double _kDayPickerRowHeight = 35.0;
 
 class _DayPickerGridDelegate extends SliverGridDelegate {
   const _DayPickerGridDelegate();
