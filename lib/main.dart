@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: NepaliUnicode.convert('nepaalI Paatro'),
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -47,7 +48,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
   //  NepaliDateTime currentTime = NepaliDateTime.now();
   NepaliDateTime currentTime = NepaliDateTime.now();
   var date2 = NepaliDateFormat.EEEE();
@@ -67,21 +68,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       holidays = json.decode(response.body);
-      print(holidays.length);
+      print(holidays);
     });
   }
 
   @override
-  void initState() {
+  void initState()  {
     fetchHolidays();
     super.initState();
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 children: [
                   Container(
-                    width: 100,
+                    padding: EdgeInsets.only(left:20),
+                    width: 110,
                     child: Column(
                       children: [
                         Row(
@@ -145,7 +143,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               calendarStyle: CalendarStyle(
                                 selectedColor: Colors.green[600],
                                 dayStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    // fontWeight: FontWeight.bold,
                                     color: Colors.white),
                                 todayStyle: TextStyle(
                                   fontSize: 18.0,
@@ -158,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               headerStyle: HeaderStyle(
                                 centerHeaderTitle: true,
                                 titleTextStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    // fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                     fontSize: 20.0),
                               ),
@@ -179,29 +178,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Expanded(
-              child: holidays.length > 0 ? getHolidays(holidays) : null,
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                ],
-              ),
+              child: holidays!=null ? getHolidays(holidays) : Container(),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: ()=>{},
+        tooltip: 'Help',
+        child: Icon(Icons.help),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -209,6 +194,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget getHolidays(List holidays) {
     return ListView.builder(
       itemBuilder: (context, index) {
+        NepaliDateTime date = NepaliDateTime.parse(holidays[index]['date']);
+        String moment = NepaliMoment.fromBS(date);
+        // NepaliDateFormat.yMMMMEEEEd().format(date);
+        if (moment.contains('पहिले')) {
+          //  holidays.removeWhere((key, value) => key == "isDownloaded");
+
+          // setState(() {
+          //   // holidays.removeAt(index);
+          // });
+          return Container();
+        }
         return Card(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -222,8 +218,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        holidays[index]['date'],
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        holidays[index]['description'],
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                      Text(
+                        NepaliDateFormat.yMMMMEEEEd().format(date),
                       )
                     ],
                   ),
@@ -231,14 +231,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 Expanded(
                     child: Container(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
-                        holidays[index]['description'],
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.red),
-                      )
+                        moment,
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   ),
                 ))
