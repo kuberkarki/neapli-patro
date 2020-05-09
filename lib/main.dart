@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'helpers/patro_helper.dart';
 import 'patro/patro.dart';
 import "package:http/http.dart" as http;
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             fontSize: 16.0,
           ),
           caption: TextStyle(
-              fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: 18.0, color: Colors.white),
         ),
       ),
       home: MyHomePage(title: NepaliUnicode.convert('nepaalI Paatro')),
@@ -62,19 +63,29 @@ class _MyHomePageState extends State<MyHomePage> {
   // print(currentTime.toIso8601String()); //2076-02-01T11:25:46.490980
 
   List holidays;
-  fetchHolidays() async {
-    http.Response response = await http.get(
-        'https://raw.githubusercontent.com/kuberkarki/2077/master/db.json');
+  // fetchHolidays() async {
+  //   http.Response response = await http.get(
+  //       'https://raw.githubusercontent.com/kuberkarki/2077/master/db.json');
 
-    setState(() {
-      holidays = json.decode(response.body);
+  //   setState(() {
+  //     holidays = json.decode(response.body);
+  //     print(holidays);
+  //   });
+  // }
+  loadJson() async {
+  String data = await rootBundle.loadString('assets/json/db.json');
+  
+  setState(() {
+      holidays = json.decode(data);
       print(holidays);
     });
-  }
+  print(holidays);
+}
 
   @override
   void initState()  {
-    fetchHolidays();
+    // fetchHolidays();
+    loadJson();
     super.initState();
   }
 
@@ -89,6 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         elevation: 0.0,
+        bottomOpacity: 0.0,
+        centerTitle: true,
       ),
       body: Container(
         child: Column(
@@ -119,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         Text(NepaliDateFormat.d().format(currentTime),
                             style:
-                                TextStyle(fontSize: 36, color: Colors.white)),
+                                TextStyle(fontSize: 34, color: Colors.white)),
                         Text(date2.format(currentTime),
                             style:
                                 TextStyle(fontSize: 18, color: Colors.white)),
@@ -141,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print("header tapped $date");
                               },
                               calendarStyle: CalendarStyle(
-                                selectedColor: Colors.green[600],
+                                selectedColor: Colors.green[800],
                                 dayStyle: TextStyle(
                                     fontSize: 16,
                                     // fontWeight: FontWeight.bold,
@@ -159,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 titleTextStyle: TextStyle(
                                     // fontWeight: FontWeight.bold,
                                     color: Colors.white,
-                                    fontSize: 20.0),
+                                    fontSize: 18.0),
                               ),
                               initialDate: NepaliDateTime.now(),
                               // firstDate: first,
@@ -198,10 +211,9 @@ class _MyHomePageState extends State<MyHomePage> {
         String moment = NepaliMoment.fromBS(date);
         // NepaliDateFormat.yMMMMEEEEd().format(date);
         if (moment.contains('पहिले')) {
-          //  holidays.removeWhere((key, value) => key == "isDownloaded");
 
           // setState(() {
-          //   // holidays.removeAt(index);
+            // holidays.removeAt(index);
           // });
           return Container();
         }
@@ -220,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Text(
                         holidays[index]['description'],
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.red),
+                             color: Colors.red),
                       ),
                       Text(
                         NepaliDateFormat.yMMMMEEEEd().format(date),
